@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <div class="heading">
+        <div id="gallery-name">
+            <p class="title"><b>Current gallery:</b></p>
+            <p class="title" id="current-gallery">None</p>
+        </div>
+        <div id="drop-zone" class="drop-zone" ondrop="dropHandler(event);"  ondragover="dragOverHandler(event);">
+            <p id="text">Drag your original file here.</p>
+            <a id="upload" class="upload" style="cursor: pointer;" onclick="addFile(event)"><u>Choose manually.</u></a>
+        </div>
+        <form id="upload-form">
+            <input class="hidden" id="file-input" type="file" name="file" style="display: none;" multiple>
+            <input class="input submit" type="submit" value="Upload to files gallery">
+            <button class="input submit" type="button" onclick="resetFiles()"> Reset files </button>
+            <div id="file-error" style="color: red; display: none;">Please select at least one file to upload.</div>
+        </form>
+        <form id="choose-gallery">
+            <input class="input" id="name-choose" type="text" placeholder="Enter gallery name"/>
+            <input class="input submit" type="submit" value="Choose/create this gallery">
+        </form>
+    </div>
+
+    <div id="gallery"></div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>

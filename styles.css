@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css2?family=Birthstone&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+  padding: 0;
+  margin: 0;
+  font-family: Inter;
+  color: whitesmoke;
+  transition: all 0.2s ease;
+}
+
+body {
+  padding: 2rem;
+  background-color: rgb(20, 20, 20);
+}
+
+#gallery {
+  column-count: 4;
+  column-gap: 1em;
+  padding: 2rem;
+  background-color: black;
+}
+
+#current-gallery {
+  color: white;
+  text-align: center;
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  -moz-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes glow {
+  from {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #e60073, 0 0 20px #e60073, 0 0 25px #e60073, 0 0 30px #e60073, 0 0 70px #e60073;
+  }
+  to {
+    text-shadow: 0 0 10px #fff, 0 0 15px #ff4da6, 0 0 20px #ff4da6, 0 0 25px #ff4da6, 0 0 30px #ff4da6, 0 0 35px #ff4da6, 0 0 40px #ff4da6;
+  }
+}
+
+#name-choose {
+  color: black;
+}
+
+.img-container {
+  break-inside: avoid;
+  display: block; 
+  margin: 0 0 1em;
+  padding: 0;
+  width: 100%;
+  transform: scale(1);
+  position: relative;
+  z-index: auto;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  position: relative;
+  overflow: hidden;
+}
+.img-container:hover {
+  transform: scale(1.2);
+  z-index: 2;
+}
+
+.img-container.unclicked {
+  padding-bottom: 32px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+}
+
+.delete-button {
+  display: none;
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 14px;
+  background-color: red;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+.delete-button:hover {
+  background-color: rgb(200, 0, 0);
+}
+
+.download-button {
+  display: none;
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 14px;
+  background-color: green;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+.download-button:hover {
+  background-color: rgb(1, 100, 1);
+}
+
+img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media only screen and (max-width: 1024px) {
+  #gallery {
+    column-count: 3;
+  }
+}
+@media only screen and (max-width: 768px) {
+  #gallery {
+    column-count: 2;
+  }
+}
+@media only screen and (max-width: 480px) {
+  #gallery {
+    column-count: 1;
+  }
+}
+
+#gallery-name {
+  display: flex;
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 15px;
+  margin-bottom: 20px;
+}
+
+.input {
+  padding: 10px 20px;
+}
+
+.title {
+  font-size: 2rem;
+  margin: 0.2em;
+}
+
+.drop-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  width: 100%;
+  color: white;
+  border: 2px solid rgba(255,255,255,0.2);
+}
+
+.disabled {
+  pointer-events: none;           
+  background-color: rgb(140, 255, 140, 0.8);
+  box-shadow: 0 0 5px 5px green;               
+  cursor: not-allowed;
+}
+
+.submit {
+  background-color: white;
+  color: black;
+}
+
+.submit:hover {
+  background-color: grey;
+  color: white;
+}
