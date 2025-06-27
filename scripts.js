@@ -72,7 +72,7 @@ document.getElementById("upload-form").addEventListener("submit", async function
     formData.append("thumbnailFile", thumbnailFile);
     formData.append("gallery", currentGallery)
     try {
-      const response = await fetch("http://127.0.0.1:8000/upload/", {
+      const response = await fetch("/upload", {
         method: "POST",
         body: formData
       });
@@ -98,7 +98,7 @@ function addFunctions() {
       formData.append("fileName", deleteButton.parentElement.dataset.name);
       formData.append("galleryName", galleryName);
       try {
-        const response = await fetch("http://127.0.0.1:8000/delete/", {
+        const response = await fetch("/delete", {
           method: "DELETE",
           body: formData
         });
@@ -128,7 +128,7 @@ async function loadGallery(name) {
   const gallery = document.getElementById("gallery");
   gallery.innerHTML = "";
 
-  const response = await fetch(`http://127.0.0.1:8000/show?gallery=${encodeURIComponent(name)}`);
+  const response = await fetch(`/show?gallery=${encodeURIComponent(name)}`);
   
   const imageUrls = await response.json();
   imageUrls.forEach(url => {
