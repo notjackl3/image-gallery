@@ -42,7 +42,6 @@ document.getElementById("upload-form").addEventListener("submit", async function
 
   if (fileInput.files.length === 0) {
     errorMessage.style.display = "block"; 
-    console.log("error")
     return; 
   }
   else {

@@ -19,6 +19,7 @@ app.add_middleware(
 )
 
 BUCKET_NAME = "jackle-image-gallery"
+CLOUDFRONT_DOMAIN = "https://d3fy0jl7xndosi.cloudfront.net"
 
 def get_extension(file_path: str) -> str:
     return "." + file_path.split(".")[-1]
@@ -73,7 +74,7 @@ async def show_files(gallery: str):
     if "Contents" not in response:
         return []
     urls = [
-        f"https://{BUCKET_NAME}.s3.amazonaws.com/{obj['Key']}"
+        f"{CLOUDFRONT_DOMAIN}/{obj['Key']}"
         for obj in response["Contents"]
     ]
     return urls
