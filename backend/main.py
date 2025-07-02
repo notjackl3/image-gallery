@@ -20,20 +20,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 frontend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../static"))
-app.mount("/", StaticFiles(directory=frontend_path, html=True), name="static")
-
+app.mount("/staticfiles", StaticFiles(directory=frontend_path), name="static")
 
 @app.get("/")
 async def read_index():
     return FileResponse(os.path.join(frontend_path, "index.html"))
 
+REGION_NAME = os.getenv("AWS_REGION")
 BUCKET_NAME = "jackle-image-gallery"
 CLOUDFRONT_DOMAIN = "https://d3fy0jl7xndosi.cloudfront.net"
 s3_client = boto3.client(
     "s3",
     aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
     aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
-    region_name=os.getenv("AWS_REGION")
+    region_name=REGION_NAME
 )
 
 def get_extension(file_path: str) -> str:
@@ -70,8 +70,8 @@ async def upload_file(originalFile: UploadFile = File(...), thumbnailFile: Uploa
     # new stuff
     expiration_time = (datetime.now(timezone.utc) + timedelta(days=7)).isoformat()
     upload_time = datetime.now(timezone.utc).isoformat()
-    dynamodb = boto3.resource('dynamodb')
-    table = dynamodb.Table('image-gallery-db')
+    dynamodb = boto3.resource('dynamodb', region_name=REGION_NAME)
+    table = dynamodb.Table('image-gallery-db', region_name=REGION_NAME)
     table.put_item(
         Item={
             "uuid": unique_id,
@@ -116,7 +116,7 @@ async def delete_file(fileName: str = Form(...), galleryName: str = Form(...)):
     deleted_keys = []
     for obj in matching_files:
         key = obj["Key"]
-        print("key here:", key)
+        print("key here:",key)
         s3_client.delete_object(Bucket=BUCKET_NAME, Key=key)
         deleted_keys.append(key)
     return {
