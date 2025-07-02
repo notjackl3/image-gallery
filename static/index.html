@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gallery</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="staticfiles/styles.css" />
 </head>
 <body>
     <div class="heading">
@@ -25,11 +25,12 @@
         <form id="choose-gallery">
             <input class="input" id="name-choose" type="text" placeholder="Enter gallery name"/>
             <input class="input submit" type="submit" value="Choose/create this gallery">
+            <button class="input submit" type="button" onclick="if (confirm('Are you sure you want to delete the current gallery?')) deleteGallery()">Delete current gallery</button>
         </form>
     </div>
 
     <div id="gallery"></div>
 
-    <script src="scripts.js"></script>
+    <script src="staticfiles/scripts.js"></script>
 </body>
 </html>

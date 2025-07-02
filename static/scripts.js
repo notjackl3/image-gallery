@@ -228,6 +228,7 @@ function dropHandler(event) {
   updateFileUploadButton("drop-zone", "text", "upload", event.dataTransfer.items.length)
 }
 
+
 function addFile(event) {
   const input = document.createElement('input');
   input.type = 'file';
@@ -253,4 +254,22 @@ function resetFiles(event) {
   text.innerHTML = "Drag your original file here.";
   const upload = document.getElementById("upload");
   upload.style.display = "block";
+}
+
+
+async function deleteGallery() {
+  currentGallery = document.getElementById("current-gallery").innerHTML;
+  const formData = new FormData();
+  formData.append("galleryName", currentGallery)
+  try {
+    const response = await fetch("/delete-gallery", {
+      method: "DELETE",
+      body: formData
+    });
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error("Upload error:", error);
+  }
+  window.location.reload();
 }
