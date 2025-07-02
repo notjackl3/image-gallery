@@ -20,7 +20,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 frontend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../static"))
-app.mount("/staticfiles", StaticFiles(directory=frontend_path), name="static")
+app.mount("/", StaticFiles(directory=frontend_path, html=True), name="static")
+
 
 @app.get("/")
 async def read_index():
