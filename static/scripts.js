@@ -66,10 +66,13 @@ document.getElementById("upload-form").addEventListener("submit", async function
     const thumbnailFile = widthRatioBlob.size > heightRatioBlob.size ? heightRatioBlob : widthRatioBlob;
     
     currentGallery = document.getElementById("current-gallery").innerHTML;
+    // TO-DO have a way to change the expiring time/day
+    expiringDay = 1;
     const formData = new FormData();
     formData.append("originalFile", originalFile);
     formData.append("thumbnailFile", thumbnailFile);
     formData.append("gallery", currentGallery)
+    formData.append("expiringDay", expiringDay)
     try {
       const response = await fetch("/upload", {
         method: "POST",

@@ -42,7 +42,7 @@ def get_extension(file_path: str) -> str:
 
 @app.post("/upload")
 # the ... in File(...) means that it is required in the request body
-async def upload_file(originalFile: UploadFile = File(...), thumbnailFile: UploadFile = File(...), gallery: str = Form(...)): 
+async def upload_file(originalFile: UploadFile = File(...), thumbnailFile: UploadFile = File(...), gallery: str = Form(...), expiringDay: int = Form(...)): 
     unique_id = str(uuid.uuid4())
     original_unique_name = unique_id + get_extension(originalFile.filename)
     thumbnail_unique_name = unique_id + get_extension(thumbnailFile.filename)
@@ -68,23 +68,23 @@ async def upload_file(originalFile: UploadFile = File(...), thumbnailFile: Uploa
     thumbnail_url = f"https://{BUCKET_NAME}.s3.amazonaws.com/{thumbnail_s3_key}"
 
     # new stuff
-    expiration_time = (datetime.now(timezone.utc) + timedelta(days=7)).isoformat()
+    expiration_time = (datetime.now(timezone.utc) - timedelta(days=expiringDay)).isoformat() # this is current setting as minus time to make sure the tasks is always expiring already
     upload_time = datetime.now(timezone.utc).isoformat()
-    dynamodb = boto3.resource('dynamodb', region_name=REGION_NAME)
-    table = dynamodb.Table('image-gallery-db', region_name=REGION_NAME)
-    table.put_item(
+    dynamodb_client = boto3.client('dynamodb', region_name=REGION_NAME)
+    dynamodb_client.put_item(
+        TableName='image-gallery-db',
         Item={
-            "uuid": unique_id,
-            "gallery": gallery,
-            "original_s3_key": original_s3_key,
-            "thumbnail_s3_key": thumbnail_s3_key,
-            "original_url": original_url,
-            "thumbnail_url": thumbnail_url,
-            "expiration_date": expiration_time,
-            "uploaded_at": upload_time
+            "uuid": {"S": unique_id}, 
+            "gallery": {"S": gallery},
+            "original_s3_key": {"S": original_s3_key},
+            "thumbnail_s3_key": {"S": thumbnail_s3_key},
+            "original_url": {"S": original_url},
+            "thumbnail_url": {"S": thumbnail_url},
+            "expiration_date": {"S": expiration_time},
+            "uploaded_at": {"S": upload_time}
         }
     )
-
+    
     return JSONResponse({"original_url": original_url, "thumbnail_url": thumbnail_url})
 
 
